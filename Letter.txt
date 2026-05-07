@@ -1,0 +1,345 @@
+index.html
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gift Letter to Sonam</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Lora:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;600;700;800&family=Birthstone&family=Inter:wght@400;600&display=swap');
+
+        :root {
+            --pink-highlight: #ff2d75;
+            --hot-pink: #ff1493;
+            --pink-soft: #fff0f5;
+            --ink-blue: #2b4d86; 
+        }
+
+        body {
+            background: #f8fafc; 
+            font-family: 'Lora', serif;
+            color: #2d3436;
+            line-height: 1.8;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        .grain-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("https://www.transparenttextures.com/patterns/stardust.png");
+            opacity: 0.05;
+            pointer-events: none;
+            z-index: 99;
+        }
+
+        .letter-container {
+            max-width: 800px;
+            margin: 40px auto;
+            background: #ffffff; 
+            padding: 60px 50px;
+            position: relative;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.08), 0 10px 20px rgba(0,0,0,0.05); 
+            border-radius: 8px;
+            border: 1px solid #edf2f7;
+            z-index: 10;
+        }
+
+        .corner {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--hot-pink);
+            opacity: 0.3;
+        }
+        .top-left { top: 30px; left: 30px; border-right: none; border-bottom: none; }
+        .bottom-right { bottom: 30px; right: 30px; border-left: none; border-top: none; }
+
+        .vintage-stamp {
+            position: absolute;
+            top: 40px;
+            right: 40px;
+            width: 100px;
+            height: 100px;
+            border: 3px double var(--ink-blue);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: 0.6rem;
+            color: var(--ink-blue);
+            text-transform: uppercase;
+            transform: rotate(15deg);
+            opacity: 0.8;
+            padding: 5px;
+            user-select: none;
+        }
+
+        .polaroid {
+            background: white;
+            padding: 15px 15px 45px 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            transform: rotate(-3deg);
+            border: 1px solid #eee;
+            max-width: 320px; 
+            margin: 40px auto;
+            transition: transform 0.3s ease;
+        }
+        .polaroid img { width: 100%; border-radius: 2px; }
+        .polaroid .caption { 
+            font-family: 'Dancing Script', cursive; 
+            text-align: center; 
+            font-size: 1.4rem; 
+            margin-top: 15px; 
+            color: #444; 
+        }
+
+        .glitch-text {
+            font-family: 'Inter', sans-serif;
+            font-weight: 800;
+            position: relative;
+            display: inline-block;
+            animation: glitch 2s infinite;
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+
+        .sig-svg { width: 300px; height: 80px; }
+        .sig-path {
+            stroke: #1a1a1a;
+            stroke-width: 2;
+            fill: none;
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+        }
+        .animate-sig .sig-path { animation: draw 4s forwards ease-in-out; }
+        @keyframes draw { to { stroke-dashoffset: 0; } }
+
+        #envelope-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #f1f5f9; z-index: 9999;
+            display: flex; align-items: center; justify-content: center;
+            transition: transform 0.8s cubic-bezier(0.87, 0, 0.13, 1);
+        }
+        .open-btn {
+            background: var(--hot-pink); color: white;
+            padding: 12px 30px; border-radius: 50px;
+            font-family: 'Montserrat', sans-serif; font-weight: 700;
+            cursor: pointer; border: none; box-shadow: 0 4px 20px rgba(255, 20, 147, 0.4);
+        }
+
+        .quote-block {
+            font-style: italic; text-align: center; color: #4a5568;
+            margin: 40px 0; padding: 30px;
+            border-top: 1px solid #f1f5f9; border-bottom: 1px solid #f1f5f9;
+            font-size: 1.1rem; position: relative;
+        }
+
+        .petal {
+            position: fixed; background: #ffd1dc; border-radius: 150% 0 150% 0;
+            opacity: 0.3; pointer-events: none; z-index: 5;
+            animation: fall 10s linear infinite;
+        }
+        @keyframes fall {
+            0% { transform: translateY(-10vh) rotate(0deg); left: var(--left); }
+            100% { transform: translateY(110vh) rotate(360deg); left: calc(var(--left) + 20px); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="grain-overlay"></div>
+    <div id="petals-container"></div>
+
+    <div id="envelope-overlay">
+        <div class="bg-white p-10 shadow-2xl rounded text-center border">
+            <p class="text-xs uppercase tracking-widest text-gray-400 mb-2">Incoming Letter</p>
+            <p class="font-bold text-gray-700 mb-6">A special message for Sonam</p>
+            <button class="open-btn" onclick="openLetter()">Open Letter</button>
+        </div>
+    </div>
+
+    <div id="main-content" class="letter-container opacity-0 transition-opacity duration-1000">
+        <div class="vintage-stamp">SEALED &<br>FINAL<br>#SAM1803</div>
+        <div class="corner top-left"></div>
+        <div class="corner bottom-right"></div>
+
+        <header class="text-center mb-12">
+            <h1 class="font-extrabold text-3xl uppercase tracking-tighter text-gray-900">Gift Letter to Sonam</h1>
+            <span class="font-['Dancing_Script'] text-3xl text-gray-500 block mt-2">"A chapter I couldn't keep..."</span>
+            <div class="w-full h-px bg-gray-200 my-4"></div>
+        </header>
+
+        <section class="space-y-6 text-gray-800">
+            <div class="inline-block border-2 border-pink-500 px-6 py-2 rounded-lg mb-4">
+                <p class="font-['Dancing_Script'] text-3xl text-pink-600">Hey Sonam Bacha 🌸</p>
+            </div>
+
+            <p>
+                Hope you are doing well. <span class="bg-yellow-100 px-1 font-bold">This is the final gift for you from my side 😭.</span> Let’s proceed, and I am sure you will understand and feel it. I would like to say—it was a lesson for me. Or we can say it was a <span class="italic underline">chapter of a book</span> which has been turned now. Let’s focus on the new chapter and <span class="bg-yellow-100">start the new beginning from zero</span>, because in a book, all chapters are different 🌸. <span class="block border-l-4 border-pink-400 pl-4 italic text-gray-600 my-4">In simple words, life is like a book with all non-equal chapters. Sometimes there is a bad guide, sometimes a good one.</span> It depends, but I am wishing you a <span class="text-pink-600 font-bold">very, very bright future</span>, my dear loved one 🙂🥺.
+            </p>
+
+            <div class="quote-block">
+                "Whatever I have done, or you have done, matters no more to me! It was a phase for both of us."
+            </div>
+
+            <p>
+                I wasn't able to complete your words, I didn't obey your orders, <span class="bg-yellow-100 px-1 font-bold">I always let you feel down, and I ignored you on top of everything without any reason.</span> If I had one, I would have shared it with you, but I couldn't do that. <span class="border-b-2 border-black font-bold">The time which I spent now, these last few weeks, was memorable</span> because explaining it is a very complicated thing for me. If I started to elucidate your presence with me in chats, it might take the <span class="font-mono bg-gray-100 px-1 rounded text-red-600">full night</span> or even tomorrow 😀. It was a phase for both of us, Sonam, because we both have our private lives with different goals, intentions, and many more things.
+            </p>
+
+            <p>
+                The decision you took before was your personal choice because of me (I could say)—never understanding you, showing attitude, ignorance, using bad words, not caring, etc. <span class="bg-yellow-100 px-1 font-bold">It was a good decision as per your perspective</span>; if I were in your place as a girl, I might have chosen the same as you, <span class="underline font-bold">doll</span>. We both have different genders and faced issues caused by me or somehow by you. I never tried to understand you in the starting days when I left India. I know I should have informed you, but <span class="bg-yellow-100 px-1 font-bold">I couldn't do it 😭 even if I wanted to.</span>
+            </p>
+
+            <p>
+                Sonam, the past is the past. Moving away for you may be easy, mild, or severe, but for me, I have no need to say, right <span class="font-bold text-red-500">beta?</span> <span class="bg-yellow-100 px-1 font-bold">The more we think about the past, the more we will hurt ourselves.</span> 
+                <span class="block my-6 border-l-4 border-gray-200 pl-6 italic text-gray-500">
+                    "The first meetup, your sudden lip kiss in a restaurant without even thinking for a minute..."
+                </span>
+                Afterward you were afraid, and I handled the situation, gave you a warm hug, and kept you calm. The next one: somebody’s guy that you know saw us together, and again you were scared, but <span class="bg-yellow-100 px-1 font-bold">I always protect and support you.</span>
+            </p>
+
+            <p>
+                Let’s proceed to that moment when I made my friend act as a security guard downstairs to keep us safe. <span class="bg-gray-100 px-1 font-bold">The shop owner was already on our side hahahah</span>, but there was a fear of the owner; still, he took the risk for us. Remember, we looked at each other; you were trying not to see my face, but I did it properly and you learned too, <span class="bg-pink-100 px-1 font-bold">bachu</span>. We did lots of things that day, but we <span class="line-through text-gray-400">never ever completed any food</span> in a restaurant 😅. How could we eat? We were both lost in each other hahahha.
+            </p>
+
+            <header class="text-center my-10">
+                <h2 class="font-extrabold text-2xl uppercase tracking-widest text-gray-900">✨ THE MAIN TOPIC ✨</h2>
+            </header>
+
+            <p>
+                Now the main topic starts. I hope you remembered the day when I planned a surprise for you. By asking tricky questions, I got the size of your fingers. I diverted your non-working mind to other things. When we arrived at the restaurant, I said, <span class="bg-yellow-100 px-1 font-bold">"Close your eyes and do not open them without my permission,"</span> swearing on our love ❤️. You agreed and closed both eyes, then, then, then... <span class="blur-sm hover:blur-none transition-all duration-500 cursor-help bg-gray-100 px-1">I placed both ring boxes in front of you, opening both so you could see them with your eyes and I could see your reaction.</span> It was really a <span class="italic font-bold">shocking reaction on your face</span>, as well as a lovingly smile 😊 on your pyara sa face.
+            </p>
+
+            <div class="polaroid">
+                <img src="https://i.ibb.co/MyC98Nk5/IMG-3263.jpg" alt="Our Ring Memory">
+                <div class="caption">Our Forever 💍❤️</div>
+            </div>
+
+            <p>
+                And one of the main reasons for fear was how you could take them home. But as a brave BF, I suggested something. By following the advice, you took both rings home and kept them safe. At the acceptance time, <span class="bg-yellow-100 px-1 font-bold">you were blushing a lot like a new bride 👰.</span> The fact is, yeah, you are a <span class="underline font-bold">queen who needs a king 👑</span> so he can keep her safe and fulfill all the dreams which you deserved, <span class="font-bold text-pink-600">gugu 😚.</span>
+            </p>
+
+            <p class="italic">
+                Now the time has come for our <span class="underline-black text-red-600 text-xl font-bold">last meetup 🙂</span> and <span class="bg-yellow-100 px-1 font-bold">I never thought this was really the last meetup with you.</span> <span class="bg-pink-100 px-1 font-bold">If I had any clue, I would not have gone abroad 😭🙂.</span> Everything is already written in our destiny, so with a smile, we should accept it happily 🌟. 
+            </p>
+
+            <!-- BULLET BIKE MEMORY SECTION -->
+            <div class="my-10 p-6 bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg text-center">
+                <p class="font-bold text-gray-700 italic">"Jab ham last baar mile thy aur mai bullet bike se tumhe ghr drop krne jaa rha tha last meet up k baad... 🏍️💨💔"</p>
+                <div class="w-full h-64 mt-4 bg-gray-200 rounded flex items-center justify-center text-gray-400">
+                    [ Last Meeting Photo Placeholder ]
+                </div>
+            </div>
+
+            <p>
+                Countless times I said that I want one thing: <span class="bg-gray-100 px-1 font-bold">your protection of yourself.</span> I was like a <span class="bg-yellow-100 px-1 font-bold">mentor to guide you</span> and you followed. But with the passage of time, everything changed. I should always have maintained calmness, but I couldn’t, which affected our relationship due to <span class="bg-yellow-100 px-1 font-bold">my faults 🥺.</span> What more could I say? I am sorry for hurting you 🫠. I know you have a big heart and you will definitely forgive me, <span class="font-mono text-sm bg-gray-100 p-1">beta 🤌🏻.</span>
+            </p>
+
+            <div class="quote-block">
+                "Always take care of yourself, mama, papa, and Kris... respect them well and you will get the same in return."
+            </div>
+
+            <p class="font-bold underline">Last but not least: Be confident.</p>
+            <p>
+                Never ever trap yourself in someone’s plan, please 🙏🏽. <span class="bg-yellow-100 px-1 font-bold">Before taking a step, think a thousand times 🫂.</span> Take care of your health, especially <span class="bg-pink-100 px-1 font-bold">mental as well as physical health 👥.</span> Stay away from bad people in college specifically. Never be afraid of someone—you are brave and you can handle it. Never get attached easily to someone—I am advising you because <span class="bg-yellow-100 px-1 font-bold">I know you more than you know yourself.</span>
+            </p>
+
+            <div class="p-6 bg-pink-50 border-l-4 border-pink-500 rounded-r-lg italic">
+                And yes, <span class="blur-sm hover:blur-none transition-all duration-500 cursor-help">I went to AIIMS yesterday and am taking treatment, including psychiatric treatment medicine, but do not worry.</span> Be cool and calm; I will be better soon. Due to overthinking, I wasn’t able to accept this yesterday, but now the truth is on your table ☺️😊. <span class="bg-yellow-100 px-1 font-bold">Grateful to have had you with me 😣😫.</span>
+            </div>
+
+            <p class="text-center text-xl font-serif italic py-10 border-y border-gray-100">
+                <span class="bg-yellow-100 px-2 font-bold">"I loved you, I love you, and I will continue to love you 😭🥺. Please accept it and move ahead to start the new journey of life 🤌🏻🌸."</span>
+            </p>
+
+            <p class="text-lg font-semibold">
+                It is hesitant to say a painful 😣 goodbye to my love, but <span class="bg-yellow-100 px-1 font-bold">I failed to understand it 🙂</span> <span class="text-red-600 font-mono text-sm">(Failed in love)</span>. Take care, my love—<span class="font-bold text-pink-600">Sonam Rajput 🥺.</span> It’s time to go now 😭.
+            </p>
+
+            <div class="text-center py-10">
+                <p class="glitch-text text-xl text-gray-800">
+                    Sonam ish letter ma bhut se raaz ha so make sure sab raaz jaan paayo tumm bumm 🫡🫠
+                </p>
+            </div>
+
+            <p>
+                There might be something missing, but I added mostly all that I remembered. Again, take care, my princess. <span class="font-bold text-gray-800">Good Bye ✋ 😞</span>
+            </p>
+
+            <!-- FINAL MESSAGE BOX RESTORED -->
+            <div class="mt-20 border-2 border-black p-8 relative text-center">
+                <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-black text-white px-4 py-1 font-bold text-xs tracking-widest">FINAL MESSAGE</div>
+                <p class="text-gray-700">
+                    Bas apna dhyan rakhna aur hamesha <b>happy rehna</b> 🫂🌸. 
+                    <br><span class="text-pink-600 font-bold uppercase text-[10px] mt-4 block">START THE NEW JOURNEY • BEST WISHES 🤌🏻✨</span>
+                </p>
+            </div>
+
+            <div id="signature-trigger" class="mt-16 flex flex-col items-start">
+                <p class="text-xs uppercase tracking-widest text-gray-400 mb-2">With Love,</p>
+                <div id="sig-container" class="opacity-0 transition-opacity duration-1000">
+                    <svg class="sig-svg" viewBox="0 0 300 80">
+                        <path class="sig-path" d="M20,50 C40,20 60,80 80,50 C100,20 120,80 140,50 C160,20 180,80 200,50 C220,20 240,80 260,50" />
+                        <text x="10" y="60" font-family="'Birthstone', cursive" font-size="45" fill="#1a1a1a">Rohin Singh Saini</text>
+                    </svg>
+                </div>
+                <p class="mt-2 font-serif italic text-gray-500 text-sm border-t border-gray-200 pt-2">#sam1803 — ALWAYS WITH YOU</p>
+            </div>
+
+            <p class="mt-20 text-center text-[10px] uppercase tracking-widest text-gray-400">
+                — End of the final chapter. Moving forward with peace. —
+            </p>
+        </section>
+    </div>
+
+    <script>
+        function createPetal() {
+            const petal = document.createElement('div');
+            petal.className = 'petal';
+            petal.style.setProperty('--left', Math.random() * 100 + 'vw');
+            petal.style.width = Math.random() * 15 + 10 + 'px';
+            petal.style.height = petal.style.width;
+            petal.style.animationDuration = Math.random() * 5 + 5 + 's';
+            document.getElementById('petals-container').appendChild(petal);
+            setTimeout(() => petal.remove(), 10000);
+        }
+
+        function openLetter() {
+            document.getElementById('envelope-overlay').style.transform = 'translateY(-100%)';
+            const content = document.getElementById('main-content');
+            content.classList.remove('opacity-0');
+            setInterval(createPetal, 500);
+            
+            window.addEventListener('scroll', () => {
+                const sig = document.getElementById('signature-trigger');
+                if (sig.getBoundingClientRect().top < window.innerHeight) {
+                    document.getElementById('sig-container').classList.remove('opacity-0');
+                    document.getElementById('sig-container').classList.add('animate-sig');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
+
+```
+
